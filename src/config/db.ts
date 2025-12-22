@@ -24,10 +24,22 @@ const initDb = async () => {
         name VARCHAR(100) NOT NULL,
         type VARCHAR(15) NOT NULL CHECK (type IN('car','bike','truck')),
         model INT NOT NULL,
-        registration_number VARCHAR(15)	UNIQUE NOT NULL,
+        registration_number VARCHAR(20)	UNIQUE NOT NULL,
         rental_price INT NOT NULL,
         status VARCHAR(50) NOT NULL CHECK (status IN('available', 'rented', 'maintenance'))
         )`);
+
+  // await pool.query(`
+  //       CREATE TABLE IF NOT EXISTS bookings(
+  //       booking_id SERIAL PRIMARY KEY,
+  //       user_id INT REFERENCES users(id) ON DELETE CASCADE,
+  //       vehicle_id INT REFERENCES vehicles(vehicle_id) ON DELETE CASCADE,
+  //       start_date DATE NOT NULL,
+  //       end_date DATE NOT NULL,
+  //       status VARCHAR(15) NOT NULL CHECK (type IN('completed','confirmed','pending')),
+  //       total_cost NUMERIC(10,0) NOT NULL CHECK (total_price > 0)
+  //     )
+  //     `);
 
   console.log("DB connection success");
 };
