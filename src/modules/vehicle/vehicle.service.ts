@@ -11,13 +11,33 @@ const addVehicle = async (payload: Record<string, unknown>) => {
 };
 
 const getAllVehicle = async () => {
-  const result = await pool.query(`SELECT * FROM vehicles`);
+  const result = await pool.query(`
+    SELECT *
+    FROM vehicles v
+    WHERE NOT EXISTS (
+      SELECT 1
+      FROM bookings b
+      WHERE b.vehicle_id = v.vehicle_id
+    )
+  `);
+
+  return result;
+};
+
+const getAllAvailableVehicleByTypeCar = async (type: string) => {
+  const result = await pool.query(
+    `SELECT * FROM vehicles WHERE status = 'available' AND type=$1 `,
+    [type]
+  );
   return result;
 };
 
 const getSingleVehicle = async (id: string) => {
-  const result= await pool.query(`SELECT * FROM vehicles WHERE vehicle_id=$1`, [id]);
-  return result
+  const result = await pool.query(
+    `SELECT * FROM vehicles WHERE vehicle_id=$1`,
+    [id]
+  );
+  return result;
 };
 
 const updateSingleVehicle = async (
@@ -44,6 +64,7 @@ const deleteSingleVehicle = async (id: string) => {
 export const vehicleServices = {
   addVehicle,
   getAllVehicle,
+  getAllAvailableVehicleByTypeCar,
   getSingleVehicle,
   updateSingleVehicle,
   deleteSingleVehicle,

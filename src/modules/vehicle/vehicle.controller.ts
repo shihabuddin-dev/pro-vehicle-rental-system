@@ -33,6 +33,25 @@ const getAllVehicle = async (req: Request, res: Response) => {
   }
 };
 
+const getAllAvailableVehicleByTypeCar = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const result = await vehicleServices.getAllAvailableVehicleByTypeCar(req.params.type!);
+    res.status(200).json({
+      success: true,
+      message: "Vehicle Fetched Successfully",
+      data: result.rows,
+    });
+  } catch (err: any) {
+    res.status(400).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
 const getSingleVehicle = async (req: Request, res: Response) => {
   try {
     const result = await vehicleServices.getSingleVehicle(
@@ -109,6 +128,7 @@ const deleteSingleVehicle = async (req: Request, res: Response) => {
 export const vehicleControllers = {
   addVehicle,
   getAllVehicle,
+  getAllAvailableVehicleByTypeCar,
   getSingleVehicle,
   updateSingleVehicle,
   deleteSingleVehicle,

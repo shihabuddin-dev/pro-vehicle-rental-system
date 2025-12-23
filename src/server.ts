@@ -5,6 +5,7 @@ import logger from "./middleware/logger";
 import { userRoutes } from "./modules/user/user.routes";
 import { authRoutes } from "./modules/auth/auth.routes";
 import { vehicleRoutes } from "./modules/vehicle/vehicle.routes";
+import { bookingRoutes } from "./modules/booking/booking.routes";
 
 const app = express();
 const port = config.port;
@@ -29,6 +30,9 @@ app.use("/api/v2", authRoutes);
 
 // VEHICLES
 app.use("/api/v2", vehicleRoutes);
+
+// BOOKINGS
+app.use("/api/v2", bookingRoutes);
 
 
 // not found error handle
